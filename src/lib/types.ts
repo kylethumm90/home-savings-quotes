@@ -2,9 +2,9 @@ export type Variant = 'v1' | 'v2' | 'v3';
 
 export type QuoteData = {
   zip: string;
+  ownership: string;
   homeType: string;
   bill: string;
-  homeowner: string;
   address: string;
   name: string;
   email: string;
@@ -13,9 +13,9 @@ export type QuoteData = {
 
 export const emptyQuote = (): QuoteData => ({
   zip: '',
+  ownership: '',
   homeType: '',
   bill: '',
-  homeowner: '',
   address: '',
   name: '',
   email: '',

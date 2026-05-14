@@ -26,14 +26,14 @@ const BILL_RANGES = [
   { id: 'xhigh', label: 'Over $350', sub: 'High usage' },
 ];
 
-// Both options proceed — we just want to make sure quotes land with someone
-// who can act on them. No "no" branch that dead-ends the funnel.
-const HOMEOWNER_OPTIONS = [
-  { id: 'owner', label: "Yep, it's mine", sub: "I'm the homeowner", icon: 'check' },
-  { id: 'shared', label: 'I share the decision', sub: 'With a partner or co-owner', icon: 'home' },
+// Both options proceed — we just want quotes routed appropriately, no "no"
+// branch that dead-ends the funnel.
+const OWNERSHIP_OPTIONS = [
+  { id: 'own', label: 'I own it', sub: 'Homeowner', icon: 'home' },
+  { id: 'rent', label: 'I rent it', sub: "Tenant or it's not my place", icon: 'condo' },
 ];
 
-const STEP_LABELS = ['Home type', 'Electric bill', 'Homeowner', 'Address', 'Your info'];
+const STEP_LABELS = ['Own or rent?', 'Home type', 'Electric bill', 'Address', 'Your info'];
 
 export function QuizPage({ data: initialData, setData: setParentData, onComplete, onBack }: QuizPageProps) {
   const [data, setLocalData] = useState<QuoteData>(initialData);
@@ -166,6 +166,39 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
           <section className="quiz-card">
             {step === 0 && (
               <div>
+                <h1 className="quiz-q">Do you own or rent?</h1>
+                <p className="quiz-sub">
+                  We just want to make sure quotes go to the right person — no pressure either way.
+                </p>
+                <div className="quiz-options">
+                  {OWNERSHIP_OPTIONS.map((o) => (
+                    <button
+                      key={o.id}
+                      type="button"
+                      className={'quiz-option' + (data.ownership === o.id ? ' active' : '')}
+                      onClick={() => {
+                        update('ownership', o.id);
+                        setTimeout(next, 220);
+                      }}
+                    >
+                      <span className="opt-icon">
+                        <Icon name={o.icon} size={22} />
+                      </span>
+                      <span className="opt-body">
+                        <span className="opt-label">{o.label}</span>
+                        <span className="opt-sub">{o.sub}</span>
+                      </span>
+                      <span className="opt-chev">
+                        <Icon name="arrow-right" size={16} />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 1 && (
+              <div>
                 <h1 className="quiz-q">What kind of home is it?</h1>
                 <p className="quiz-sub">
                   This helps us match the right installers and size your system.
@@ -197,7 +230,7 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
               </div>
             )}
 
-            {step === 1 && (
+            {step === 2 && (
               <div>
                 <h1 className="quiz-q">What's your typical monthly electric bill?</h1>
                 <p className="quiz-sub">
@@ -220,40 +253,6 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                       <span className="opt-body">
                         <span className="opt-label">{b.label}</span>
                         <span className="opt-sub">{b.sub}</span>
-                      </span>
-                      <span className="opt-chev">
-                        <Icon name="arrow-right" size={16} />
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {step === 2 && (
-              <div>
-                <h1 className="quiz-q">Real quick — is this your place?</h1>
-                <p className="quiz-sub">
-                  No pressure either way — we just want to make sure quotes land with someone who can act on
-                  them.
-                </p>
-                <div className="quiz-options">
-                  {HOMEOWNER_OPTIONS.map((o) => (
-                    <button
-                      key={o.id}
-                      type="button"
-                      className={'quiz-option' + (data.homeowner === o.id ? ' active' : '')}
-                      onClick={() => {
-                        update('homeowner', o.id);
-                        setTimeout(next, 220);
-                      }}
-                    >
-                      <span className="opt-icon">
-                        <Icon name={o.icon} size={22} />
-                      </span>
-                      <span className="opt-body">
-                        <span className="opt-label">{o.label}</span>
-                        <span className="opt-sub">{o.sub}</span>
                       </span>
                       <span className="opt-chev">
                         <Icon name="arrow-right" size={16} />
