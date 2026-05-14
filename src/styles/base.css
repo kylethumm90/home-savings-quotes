@@ -18,6 +18,24 @@ button {
   font-family: inherit;
 }
 
+/* ===== Brand logo image (light-background placements) ===== */
+.lp .logo.logo-img-wrap {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  /* drop the wordmark color rule from .logo since the PNG carries its own color */
+  color: inherit;
+}
+.lp .logo-img {
+  display: block;
+  height: 36px;
+  width: auto;
+  user-select: none;
+}
+.lp .footer .logo-img {
+  height: 40px;
+}
+
 /* ===== Variant switcher (production preview UI) ===== */
 .variant-switcher {
   position: fixed;
