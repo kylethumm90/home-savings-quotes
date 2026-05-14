@@ -13,19 +13,19 @@ const NEXT_STEPS = [
   {
     n: '01',
     t: 'We line up the right folks',
-    d: 'In the next hour or so, we pick the 1–3 installers we think will be the best fit for your home.',
+    d: 'In the next hour or so, we pick the 1–3 local installers we think will be the best fit for your home.',
     icon: 'spark',
   },
   {
     n: '02',
-    t: 'Quotes hit your inbox',
-    d: 'Custom offers arrive within 24 hours. Compare them side-by-side at your own pace — no rush, no pressure.',
-    icon: 'check',
+    t: 'They reach out to you',
+    d: 'Each matched installer will get in touch directly — by phone or email — to learn a bit about your home and walk you through pricing.',
+    icon: 'phone',
   },
   {
     n: '03',
     t: 'You pick what works',
-    d: 'Choose the installer that fits, lock in $0-down financing if you qualify, and start saving.',
+    d: 'After talking to them, choose the installer with the offer that fits, lock in $0-down financing if you qualify, and start saving.',
     icon: 'bolt',
   },
 ];
@@ -41,9 +41,6 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
           <div className="quiz-header-meta">
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <Icon name="shield" size={14} /> Secure & private
-            </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="phone" size={14} /> 1-800-555-0142
             </span>
           </div>
         </div>
@@ -62,11 +59,11 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
           <h1 className="thanks-title">
             Thanks, {firstName}.
             <br />
-            <span className="thanks-title-accent">Your quotes are on the way.</span>
+            <span className="thanks-title-accent">Local installers are on the way.</span>
           </h1>
           <p className="thanks-sub">
-            We're already reaching out to up to 3 trusted local installers in <strong>{data.zip}</strong>. Expect
-            their offers in your inbox within 24 hours — usually a lot sooner.
+            We're matching you with up to 3 trusted local installers in <strong>{data.zip}</strong>. They'll be
+            in touch within 24 hours — usually a lot sooner — to walk you through pricing for your home.
           </p>
 
           <div className="thanks-card">
@@ -75,19 +72,9 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
               <span className="val mono">{result.confirmationId}</span>
             </div>
             <div className="thanks-card-row">
-              <span className="lbl">Quotes expected by</span>
+              <span className="lbl">First contact expected by</span>
               <span className="val">{result.expectedBy ?? 'Tomorrow, 5:00 PM'}</span>
             </div>
-            <div className="thanks-card-row">
-              <span className="lbl">Sent to</span>
-              <span className="val">{data.email}</span>
-            </div>
-            {data.phone && (
-              <div className="thanks-card-row">
-                <span className="lbl">Phone</span>
-                <span className="val">{data.phone}</span>
-              </div>
-            )}
           </div>
 
           <h2 className="thanks-next-title">What happens next</h2>
@@ -111,9 +98,8 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
             <div>
               <div className="thanks-tip-title">While you wait</div>
               <div className="thanks-tip-body">
-                Check your spam folder for an email from <strong>hello@homesavingsquotes.com</strong> — add us to
-                your contacts so quotes don't get filtered. Have a recent electric bill handy? Snap a photo of
-                it, you'll need it to finalize.
+                Got a recent electric bill handy? Snap a photo — your matched installers will ask about your
+                usage when they reach out, so having it ready speeds the conversation along.
               </div>
             </div>
           </div>
@@ -123,8 +109,8 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
           </button>
 
           <div className="thanks-footer-fine">
-            Confirmation also sent to <strong>{data.email}</strong>. Need help? Reply to that email or call{' '}
-            <strong>1-800-555-0142</strong> Mon–Fri 8a–8p ET.
+            Hold tight — your installer matches are on the way. Save your confirmation # in case you need to
+            reference it later.
           </div>
         </div>
       </main>

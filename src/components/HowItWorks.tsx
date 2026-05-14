@@ -20,7 +20,7 @@ const STEPS = [
   {
     n: '03',
     t: 'You pick what works for you',
-    d: 'Compare offers side-by-side in your inbox. No pressure, no salesperson at your door, ever.',
+    d: 'Talk through pricing with each matched installer at your own pace, then pick the offer that fits. No pressure, no salesperson at your door, ever.',
     img: hiw3,
     alt: 'Phone showing a side-by-side comparison of three solar installer offers.',
   },

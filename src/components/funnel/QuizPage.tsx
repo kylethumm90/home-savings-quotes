@@ -98,9 +98,6 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <Icon name="shield" size={14} /> Secure & private
             </span>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <Icon name="phone" size={14} /> 1-800-555-0142
-            </span>
           </div>
         </div>
         <div className="quiz-progress-wrap">
@@ -132,7 +129,8 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
             <h2 className="quiz-rail-title">Nice to meet you.</h2>
             <p className="quiz-rail-copy">
               We've already helped over <strong>10,000</strong> homeowners shop solar without the door-knock
-              pitch. A few quick questions and we'll have up to 3 free quotes in your inbox within 24 hours.
+              pitch. A few quick questions and we'll match you with up to 3 trusted local installers — they'll
+              reach out within 24 hours.
             </p>
             <div className="quiz-rail-stats">
               <div>
@@ -308,10 +306,11 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
 
             {step === 4 && (
               <form onSubmit={handleSubmit}>
-                <h1 className="quiz-q">Where should we send your quotes?</h1>
+                <h1 className="quiz-q">How should the installers reach you?</h1>
                 <p className="quiz-sub">
-                  We'll send up to 3 hand-picked offers within 24 hours. Your info stays between us and the
-                  installers we introduce you to — never sold to third parties.
+                  We'll match you with up to 3 hand-picked local installers within 24 hours — they'll get in
+                  touch directly to walk you through pricing. Your info stays between us and the installers we
+                  introduce you to — never sold to third parties.
                 </p>
                 <div className="quiz-form">
                   <label className="quiz-field">
