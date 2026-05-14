@@ -26,7 +26,14 @@ const BILL_RANGES = [
   { id: 'xhigh', label: 'Over $350', sub: 'High usage' },
 ];
 
-const STEP_LABELS = ['Home type', 'Electric bill', 'Your info'];
+// Both options proceed — we just want to make sure quotes land with someone
+// who can act on them. No "no" branch that dead-ends the funnel.
+const HOMEOWNER_OPTIONS = [
+  { id: 'owner', label: "Yep, it's mine", sub: "I'm the homeowner", icon: 'check' },
+  { id: 'shared', label: 'I share the decision', sub: 'With a partner or co-owner', icon: 'home' },
+];
+
+const STEP_LABELS = ['Home type', 'Electric bill', 'Homeowner', 'Address', 'Your info'];
 
 export function QuizPage({ data: initialData, setData: setParentData, onComplete, onBack }: QuizPageProps) {
   const [data, setLocalData] = useState<QuoteData>(initialData);
@@ -52,6 +59,15 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
     setErr('');
     if (step === 0) onBack();
     else setStep((s) => s - 1);
+  };
+
+  const advanceAddress = (e: FormEvent) => {
+    e.preventDefault();
+    if (!data.address.trim()) {
+      setErr('Please enter your street address.');
+      return;
+    }
+    next();
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -215,6 +231,83 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
             )}
 
             {step === 2 && (
+              <div>
+                <h1 className="quiz-q">Real quick — is this your place?</h1>
+                <p className="quiz-sub">
+                  No pressure either way — we just want to make sure quotes land with someone who can act on
+                  them.
+                </p>
+                <div className="quiz-options">
+                  {HOMEOWNER_OPTIONS.map((o) => (
+                    <button
+                      key={o.id}
+                      type="button"
+                      className={'quiz-option' + (data.homeowner === o.id ? ' active' : '')}
+                      onClick={() => {
+                        update('homeowner', o.id);
+                        setTimeout(next, 220);
+                      }}
+                    >
+                      <span className="opt-icon">
+                        <Icon name={o.icon} size={22} />
+                      </span>
+                      <span className="opt-body">
+                        <span className="opt-label">{o.label}</span>
+                        <span className="opt-sub">{o.sub}</span>
+                      </span>
+                      <span className="opt-chev">
+                        <Icon name="arrow-right" size={16} />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 3 && (
+              <form onSubmit={advanceAddress}>
+                <h1 className="quiz-q">What's the address?</h1>
+                <p className="quiz-sub">
+                  Installers use the address to do a quick satellite roof check and estimate your sunlight
+                  hours — that's what shapes an accurate savings number.
+                </p>
+                <div className="quiz-form">
+                  <label className="quiz-field">
+                    <span>Street address</span>
+                    <input
+                      className="quiz-input"
+                      autoFocus
+                      placeholder="123 Main St"
+                      value={data.address}
+                      onChange={(e) => update('address', e.target.value)}
+                    />
+                  </label>
+                  <label className="quiz-field">
+                    <span>Zip</span>
+                    <input className="quiz-input" value={data.zip} disabled />
+                  </label>
+                </div>
+                <div className="quiz-explainer">
+                  <div className="quiz-explainer-icon">
+                    <Icon name="panel" size={18} />
+                  </div>
+                  <div>
+                    <div className="quiz-explainer-title">Why we ask</div>
+                    <div className="quiz-explainer-body">
+                      Your address lets installers check the roof remotely, model your sunlight, and price
+                      a system that fits your home — no in-person visit needed yet. Never shared with anyone
+                      outside the installers we match you with.
+                    </div>
+                  </div>
+                </div>
+                {err && <div className="quiz-err">{err}</div>}
+                <button className="btn btn-primary btn-lg quiz-submit" type="submit">
+                  Continue <Icon name="arrow-right" size={18} />
+                </button>
+              </form>
+            )}
+
+            {step === 4 && (
               <form onSubmit={handleSubmit}>
                 <h1 className="quiz-q">Where should we send your quotes?</h1>
                 <p className="quiz-sub">

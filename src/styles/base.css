@@ -35,6 +35,43 @@ button {
   height: 40px;
 }
 
+/* ===== Quiz inline explainer (e.g. why we need your address) ===== */
+.lp .quiz-explainer {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  background: var(--tint);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+}
+.lp .quiz-explainer-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp .quiz-explainer-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+.lp .quiz-explainer-body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-mute);
+}
+.lp .quiz-input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* ===== How-it-works step imagery ===== */
 .lp .hiw-illo-img {
   display: block;
