@@ -23,7 +23,6 @@ button {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  /* drop the wordmark color rule from .logo since the PNG carries its own color */
   color: inherit;
 }
 .lp .logo-img {
@@ -36,39 +35,237 @@ button {
   height: 40px;
 }
 
-/* ===== Variant switcher (production preview UI) ===== */
-.variant-switcher {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  z-index: 1000;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgba(20, 18, 14, 0.86);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+/* ===== Admin / tweaks preview ===== */
+.admin-page {
+  min-height: 100vh;
+  background: #f0eee9;
   font-family: 'Manrope', system-ui, sans-serif;
+  color: #14120e;
+  padding-bottom: 120px;
 }
-.variant-switcher button {
-  border: none;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.72);
+
+.admin-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 24px;
+  background: rgba(20, 18, 14, 0.92);
+  color: #fff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), 0 6px 24px rgba(0, 0, 0, 0.16);
+}
+.admin-bar-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.admin-bar-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+.admin-bar-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 3px;
+}
+.admin-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.admin-bar-link {
   font-size: 12px;
   font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
   padding: 7px 14px;
   border-radius: 999px;
-  cursor: pointer;
-  letter-spacing: 0.02em;
   transition: background 0.15s, color 0.15s;
 }
-.variant-switcher button:hover {
+.admin-bar-link:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
 }
-.variant-switcher button.active {
+.admin-bar-exit {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
   color: #14120e;
   background: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.admin-bar-exit:hover {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.admin-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 32px 24px 0;
+}
+
+.admin-artboard {
+  scroll-margin-top: 72px;
+}
+.admin-artboard-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(40, 30, 20, 0.7);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  margin: 0 0 12px;
+  padding: 0 4px;
+}
+.admin-artboard-frame {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* TweaksPanel — floating bottom-right */
+.admin-tweaks {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 60;
+  width: 280px;
+  padding: 18px 18px 16px;
+  border-radius: 14px;
+  background: rgba(20, 18, 14, 0.94);
+  color: #f6f4ef;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+.admin-tweaks-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.admin-tweaks-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.admin-tweaks-sub {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+.admin-tweaks-section + .admin-tweaks-section {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.admin-tweaks-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 10px;
+}
+.admin-tweaks-radio {
+  display: flex;
+  gap: 6px;
+}
+.admin-tweaks-pill {
+  flex: 1;
+  padding: 8px 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.admin-tweaks-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.admin-tweaks-pill.active {
+  background: #fff;
+  color: #14120e;
+  border-color: #fff;
+}
+.admin-tweaks-swatches {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.admin-tweaks-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.12s;
+}
+.admin-tweaks-swatch:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.06);
+}
+.admin-tweaks-swatch.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px rgba(20, 18, 14, 0.94), 0 0 0 4px #fff;
+}
+.admin-tweaks-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.admin-tweaks-slider-row > span:first-child {
+  flex: 0 0 90px;
+}
+.admin-tweaks-slider-row input[type='range'] {
+  flex: 1;
+  accent-color: #fff;
+}
+.admin-tweaks-value {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+  min-width: 28px;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .admin-bar-nav .admin-bar-link {
+    display: none;
+  }
+  .admin-tweaks {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+  }
 }

@@ -10,6 +10,15 @@ import { ZipCard } from '../components/funnel/ZipCard';
 import { QuizPage } from '../components/funnel/QuizPage';
 import { ThanksPage } from '../components/funnel/ThanksPage';
 import { useFunnelFlow } from '../lib/useFunnelFlow';
+import type { HeroStyle } from '../lib/TweaksContext';
+
+type LandingBoldProps = { heroStyle?: HeroStyle };
+
+const HERO_LABELS: Record<HeroStyle, string> = {
+  photo: '[ photo · modern home twilight + solar array, dramatic ]',
+  illustration: '[ abstract gradient + solar grid pattern ]',
+  bill: '[ before/after bill — dollars vs. zero ]',
+};
 
 const STATS = [
   { n: '10,000+', l: 'Homeowners helped' },
@@ -19,7 +28,7 @@ const STATS = [
 
 // V3 "Coastal Calm" — sage/celadon + slate + coral. Centered prominent zip
 // card with radial glows.
-export function LandingBold() {
+export function LandingBold({ heroStyle = 'photo' }: LandingBoldProps) {
   const flow = useFunnelFlow();
 
   if (flow.phase === 'quiz') {
@@ -163,8 +172,9 @@ export function LandingBold() {
 
             <div style={{ marginTop: 72, position: 'relative' }}>
               <ImagePlaceholder
-                label="[ photo · modern home twilight + solar array, dramatic ]"
+                label={HERO_LABELS[heroStyle]}
                 height={320}
+                illu={heroStyle === 'illustration'}
               />
             </div>
           </div>

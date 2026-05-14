@@ -11,9 +11,18 @@ import { ZipCard } from '../components/funnel/ZipCard';
 import { QuizPage } from '../components/funnel/QuizPage';
 import { ThanksPage } from '../components/funnel/ThanksPage';
 import { useFunnelFlow } from '../lib/useFunnelFlow';
+import type { HeroStyle } from '../lib/TweaksContext';
+
+type LandingSunlitProps = { heroStyle?: HeroStyle };
+
+const HERO_LABELS: Record<HeroStyle, string> = {
+  photo: '[ photo · craftsman home with rooftop solar, warm light ]',
+  illustration: '[ illustration · sun + home + ray pattern ]',
+  bill: '[ bill comparison · before/after ]',
+};
 
 // V2 "Sunshine Magazine" — saturated sun-yellow + near-black, editorial serif.
-export function LandingSunlit() {
+export function LandingSunlit({ heroStyle = 'photo' }: LandingSunlitProps) {
   const flow = useFunnelFlow();
 
   if (flow.phase === 'quiz') {
@@ -119,8 +128,9 @@ export function LandingSunlit() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 <ImagePlaceholder
-                  label="[ photo · craftsman home with rooftop solar, warm light ]"
+                  label={HERO_LABELS[heroStyle]}
                   height={240}
+                  illu={heroStyle === 'illustration'}
                 />
                 <ZipCard onSubmit={flow.startQuiz} />
               </div>

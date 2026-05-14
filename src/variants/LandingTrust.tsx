@@ -11,10 +11,19 @@ import { ZipCard } from '../components/funnel/ZipCard';
 import { QuizPage } from '../components/funnel/QuizPage';
 import { ThanksPage } from '../components/funnel/ThanksPage';
 import { useFunnelFlow } from '../lib/useFunnelFlow';
+import type { HeroStyle } from '../lib/TweaksContext';
+
+type LandingTrustProps = { heroStyle?: HeroStyle };
+
+const HERO_LABELS: Record<HeroStyle, string> = {
+  photo: '[ photo · suburban home + rooftop panels at golden hour ]',
+  illustration: '[ illustration · home + sun rays ]',
+  bill: '[ before/after · old bill → new bill ]',
+};
 
 // V1 "Neighborly" — forest-green + terracotta on warm cream. Photo-led split
 // hero with floating testimonial badge.
-export function LandingTrust() {
+export function LandingTrust({ heroStyle = 'photo' }: LandingTrustProps) {
   const flow = useFunnelFlow();
 
   if (flow.phase === 'quiz') {
@@ -83,8 +92,9 @@ export function LandingTrust() {
 
               <div style={{ position: 'relative' }}>
                 <ImagePlaceholder
-                  label="[ photo · suburban home + rooftop panels at golden hour ]"
+                  label={HERO_LABELS[heroStyle]}
                   height={460}
+                  illu={heroStyle === 'illustration'}
                 />
 
                 <div
