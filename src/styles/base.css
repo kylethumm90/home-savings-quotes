@@ -35,6 +35,14 @@ button {
   height: 40px;
 }
 
+/* ===== How-it-works step imagery ===== */
+.lp .hiw-illo-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* ===== Admin / tweaks preview ===== */
 .admin-page {
   min-height: 100vh;

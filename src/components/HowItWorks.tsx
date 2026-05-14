@@ -1,23 +1,28 @@
-import { ImagePlaceholder } from './ImagePlaceholder';
+import hiw1 from '../assets/hiw-1.png';
+import hiw2 from '../assets/hiw-2.png';
+import hiw3 from '../assets/hiw-3.png';
 
 const STEPS = [
   {
     n: '01',
     t: 'Tell us a little about your home',
     d: 'Your zip, home type, and rough electric bill — that’s it. Takes under 60 seconds.',
-    emoji: 'home',
+    img: hiw1,
+    alt: 'Home exterior with overlaid ZIP, home type, and monthly bill data chips.',
   },
   {
     n: '02',
     t: 'We line up the right installers',
     d: 'We hand-pick up to 3 trusted local installers and ask them to quote your home directly.',
-    emoji: 'spark',
+    img: hiw2,
+    alt: 'A solar installer reviewing options with a homeowner couple on a tablet, with installer rating cards.',
   },
   {
     n: '03',
     t: 'You pick what works for you',
     d: 'Compare offers side-by-side in your inbox. No pressure, no salesperson at your door, ever.',
-    emoji: 'bolt',
+    img: hiw3,
+    alt: 'Phone showing a side-by-side comparison of three solar installer offers.',
   },
 ];
 
@@ -54,7 +59,7 @@ export function HowItWorks() {
               <h3>{s.t}</h3>
               <p>{s.d}</p>
               <div className="hiw-illo">
-                <ImagePlaceholder height={120} illu label={`[ ${s.emoji} illustration ]`} />
+                <img className="hiw-illo-img" src={s.img} alt={s.alt} loading="lazy" />
               </div>
             </div>
           ))}
