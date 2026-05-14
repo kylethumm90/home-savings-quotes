@@ -1,0 +1,56 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f0eee9;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+#root {
+  min-height: 100vh;
+}
+button {
+  font-family: inherit;
+}
+
+/* ===== Variant switcher (production preview UI) ===== */
+.variant-switcher {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(20, 18, 14, 0.86);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+.variant-switcher button {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s;
+}
+.variant-switcher button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+.variant-switcher button.active {
+  color: #14120e;
+  background: #fff;
+}
