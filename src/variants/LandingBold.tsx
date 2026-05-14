@@ -93,66 +93,35 @@ export function LandingBold({ heroStyle = 'photo' }: LandingBoldProps) {
           <Nav />
 
           <div className="hero">
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1.1fr 0.9fr',
-                gap: 64,
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <span className="hero-eyebrow">
+            <div className="hero-v3-flex">
+              <div className="hero-v3-text">
+                <span className="hero-eyebrow hero-v3-eyebrow">
                   <span className="pip"></span> Friendly help in all 50 states
                 </span>
-                <h1>
+                <h1 className="hero-v3-title">
                   Your power bill,
                   <br />
                   <span className="accent">rewritten.</span>
                 </h1>
-                <p className="lead">
+                <p className="lead hero-v3-lead">
                   A friendlier way to shop solar. Get matched with trusted local installers in about a minute,
                   compare up to 3 offers at your own pace, and lock in $0-down savings without anyone showing up
                   at your door.
                 </p>
 
-                <div
-                  style={{
-                    marginTop: 48,
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: 0,
-                    borderTop: '1px solid var(--line)',
-                    borderBottom: '1px solid var(--line)',
-                  }}
-                >
+                <div className="hero-v3-stats">
                   {STATS.map((s, i) => (
-                    <div
-                      key={i}
-                      style={{
-                        padding: '22px 24px 22px 0',
-                        borderLeft: i ? '1px solid var(--line)' : 'none',
-                        paddingLeft: i ? 24 : 0,
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: 30,
-                          fontWeight: 700,
-                          letterSpacing: '-0.02em',
-                          color: 'var(--ink)',
-                        }}
-                      >
-                        {s.n}
-                      </div>
-                      <div style={{ fontSize: 12, color: 'var(--ink-mute)', marginTop: 4 }}>{s.l}</div>
+                    <div key={i} className={'hero-v3-stat' + (i ? ' divided' : '')}>
+                      <div className="hero-v3-stat-n">{s.n}</div>
+                      <div className="hero-v3-stat-l">{s.l}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ position: 'relative' }}>
+              <div className="hero-v3-zip-wrap">
                 <div
+                  className="hero-v3-zip-glow"
                   style={{
                     position: 'absolute',
                     inset: -20,
@@ -171,7 +140,7 @@ export function LandingBold({ heroStyle = 'photo' }: LandingBoldProps) {
               </div>
             </div>
 
-            <div style={{ marginTop: 72, position: 'relative' }}>
+            <div className="hero-v3-photo">
               {heroStyle === 'photo' ? (
                 <img
                   className="hero-photo"

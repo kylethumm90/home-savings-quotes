@@ -72,6 +72,47 @@ button {
   cursor: not-allowed;
 }
 
+/* ===== V3 hero layout (desktop) ===== */
+.lp.v3 .hero-v3-flex {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+}
+.lp.v3 .hero-v3-zip-wrap {
+  position: relative;
+}
+.lp.v3 .hero-v3-stats {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.lp.v3 .hero-v3-stat {
+  padding: 22px 24px 22px 0;
+}
+.lp.v3 .hero-v3-stat.divided {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+.lp.v3 .hero-v3-stat-n {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.lp.v3 .hero-v3-stat-l {
+  font-size: 12px;
+  color: var(--ink-mute);
+  margin-top: 4px;
+}
+.lp.v3 .hero-v3-photo {
+  margin-top: 72px;
+  position: relative;
+}
+
 /* ===== V3 hero photo (replaces the placeholder under the hero grid) ===== */
 .lp .hero-photo {
   display: block;
@@ -325,4 +366,177 @@ button {
     bottom: 16px;
     width: auto;
   }
+}
+
+/* =====================================================================
+   MOBILE — comprehensive overrides for shared landing, quiz, and thanks
+   ===================================================================== */
+
+@media (max-width: 768px) {
+  /* Container */
+  .lp .container { padding: 0 20px; }
+  .lp.v2 .container { max-width: none; }
+  .lp.v3 .container { max-width: none; }
+
+  /* Nav: keep logo + CTA, hide the anchor links */
+  .lp .nav { padding: 14px 0; }
+  .lp .nav-links { gap: 0; }
+  .lp .nav-links a:not(.nav-cta) { display: none; }
+  .lp .nav-cta { padding: 9px 14px; font-size: 13px; }
+  .lp .logo-img { height: 30px; }
+  .lp .footer .logo-img { height: 34px; }
+
+  /* Hero (shared across v1/v2/v3) */
+  .lp .hero { padding: 16px 0 36px; }
+  .lp .hero h1 {
+    font-size: clamp(32px, 8vw, 44px);
+    line-height: 1.08;
+    margin: 12px 0 14px;
+  }
+  .lp .hero p.lead { font-size: 15px; max-width: none; margin-bottom: 18px; }
+  .lp .hero-eyebrow { font-size: 11px; padding: 5px 10px; }
+  .lp .hero-stats { gap: 18px; margin-top: 22px; flex-wrap: wrap; }
+  .lp .hero-stat .n { font-size: 22px; }
+  .lp .hero-stat .l { font-size: 11px; }
+
+  /* V2 editorial title is huge by default — scale way down */
+  .lp.v2 .hero h1 { font-size: clamp(48px, 13vw, 72px); }
+  .lp.v2 .hero p.lead { font-size: 16px; }
+  .lp.v2 .hero-stat .n { font-size: 30px; }
+  .lp.v2 .sec-title { font-size: clamp(36px, 9vw, 48px); }
+  .lp.v2 .cta-banner h2 { font-size: clamp(34px, 9vw, 52px); }
+  .lp.v2 .calc-bill .amount { font-size: 52px; }
+  .lp.v2 .quiz-rail-title { font-size: clamp(28px, 8vw, 40px); }
+  .lp.v2 .thanks-title { font-size: clamp(38px, 10vw, 56px); }
+  .lp.v2 .faq-q { font-size: 17px; }
+  .lp.v2 .trust-item .n { font-size: 22px; }
+
+  /* V3 hero: stack & put ZipCard between title and lead via flex order */
+  .lp.v3 .hero-v3-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+  }
+  .lp.v3 .hero-v3-text { display: contents; }
+  .lp.v3 .hero-v3-eyebrow { order: 1; align-self: flex-start; margin-bottom: 12px; }
+  .lp.v3 .hero-v3-title { order: 2; margin: 0 0 14px; }
+  .lp.v3 .hero-v3-zip-wrap { order: 3; margin: 4px 0 20px; }
+  .lp.v3 .hero-v3-lead { order: 4; margin: 0 0 22px; }
+  .lp.v3 .hero-v3-stats { order: 5; margin-top: 0; }
+  .lp.v3 .hero-v3-stat { padding: 14px 6px 14px 0; }
+  .lp.v3 .hero-v3-stat.divided { padding-left: 8px; }
+  .lp.v3 .hero-v3-stat-n { font-size: 18px; }
+  .lp.v3 .hero-v3-stat-l { font-size: 11px; line-height: 1.25; }
+  .lp.v3 .hero-v3-photo { margin-top: 32px; }
+  /* Soften the radial glows on mobile so they don't dominate */
+  .lp.v3 .hero-v3-zip-glow { display: none; }
+
+  /* Sections */
+  .lp section { padding: 56px 0; }
+  .lp .sec-title { font-size: clamp(28px, 7vw, 36px); margin: 10px 0 14px; }
+  .lp .sec-sub { font-size: 15px; }
+  .lp .sec-eyebrow { font-size: 11px; }
+
+  /* Trust bar */
+  .lp .trust-bar { padding: 18px 0; gap: 12px 18px; justify-content: flex-start; }
+  .lp .trust-item { font-size: 13px; gap: 8px; }
+  .lp .trust-item .n { font-size: 18px; }
+
+  /* How it works */
+  .lp .hiw-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
+  .lp .hiw-card { padding: 24px; }
+  .lp .hiw-card h3 { font-size: 19px; margin: 14px 0 6px; }
+  .lp .hiw-card p { font-size: 13.5px; }
+  .lp .hiw-card .hiw-illo { height: 160px; margin-top: 18px; }
+
+  /* Savings calculator */
+  .lp .calc { grid-template-columns: 1fr; gap: 28px; padding: 28px; margin-top: 32px; }
+  .lp .calc-bill .amount { font-size: 44px; }
+  .lp .savings-row .item .val { font-size: 28px; }
+  .lp .calc-result { padding: 24px; }
+
+  /* FAQ */
+  .lp .faq { margin-top: 28px; }
+  .lp .faq-item { padding: 18px 0; }
+  .lp .faq-q { font-size: 16px; gap: 12px; }
+
+  /* CTA banner */
+  .lp .cta-banner { padding: 40px 24px; border-radius: 24px; }
+  .lp .cta-banner h2 { font-size: clamp(26px, 7vw, 36px); }
+  .lp .cta-banner p { font-size: 15px; margin-bottom: 24px; }
+
+  /* Footer */
+  .lp .footer { padding: 40px 0 24px; }
+  .lp .footer-grid { gap: 28px; }
+  .lp .footer-grid > div:nth-child(2) { gap: 28px !important; }
+
+  /* ZIP card */
+  .lp .zip-card { padding: 22px; border-radius: 20px; }
+  .lp .zip-card-title { font-size: 22px; }
+  .lp .zip-card-sub { font-size: 13.5px; margin-bottom: 18px; }
+  .lp .zip-card-input { font-size: 18px; padding: 14px 16px 14px 44px; }
+  .lp .zip-card-input-icon { left: 14px; }
+  .lp.v3 .zip-card-input { padding-left: 48px; }
+  .lp .btn-lg { padding: 16px 22px; font-size: 16px; }
+
+  /* Quiz: layout */
+  .lp .quiz-header-row { padding: 12px 0; }
+  .lp .quiz-header-meta { font-size: 12px; gap: 14px; }
+  .lp .quiz-progress-wrap { padding-bottom: 14px; }
+  .lp .quiz-progress-label { font-size: 11px; }
+  .lp .quiz-main { padding: 28px 0 56px; }
+  .lp .quiz-grid { grid-template-columns: 1fr; gap: 28px; }
+  .lp .quiz-rail { position: static; }
+  .lp .quiz-rail-title { font-size: 28px; line-height: 1.1; }
+  .lp .quiz-rail-copy { font-size: 14px; }
+  .lp .quiz-rail-stats { padding: 16px 0; margin-bottom: 22px; }
+  .lp .quiz-rail-stats .n { font-size: 18px; }
+  .lp .quiz-rail-quote { padding: 16px; }
+  .lp .quiz-rail-quote p { font-size: 13px; }
+
+  /* Quiz: card + questions */
+  .lp .quiz-card { padding: 24px; border-radius: 18px; }
+  .lp .quiz-q { font-size: 24px; line-height: 1.15; }
+  .lp .quiz-sub { font-size: 14.5px; margin-bottom: 20px; }
+  .lp .quiz-option { padding: 14px 14px; gap: 12px; border-radius: 14px; }
+  .lp .quiz-option .opt-icon { width: 40px; height: 40px; border-radius: 10px; }
+  .lp .quiz-option .opt-label { font-size: 15.5px; }
+  .lp .quiz-option .opt-sub { font-size: 12.5px; }
+  .lp .quiz-form { gap: 14px; }
+  .lp .quiz-input { font-size: 16px; padding: 13px 14px; }
+  .lp .quiz-fine { font-size: 11px; }
+  .lp .quiz-explainer { padding: 12px 14px; margin-top: 14px; }
+  .lp .quiz-explainer-icon { width: 30px; height: 30px; }
+  .lp .quiz-explainer-title,
+  .lp .quiz-explainer-body { font-size: 12.5px; }
+
+  /* Thanks */
+  .lp .thanks-main { padding: 36px 0 56px; }
+  .lp .thanks-container { padding: 0; }
+  .lp .thanks-burst { width: 72px; height: 72px; margin-bottom: 20px; }
+  .lp .thanks-burst-check svg { width: 32px; height: 32px; }
+  .lp .thanks-title { font-size: clamp(30px, 8vw, 42px); line-height: 1.08; }
+  .lp .thanks-sub { font-size: 16px; margin-bottom: 28px; }
+  .lp .thanks-eyebrow { font-size: 11px; }
+  .lp .thanks-card { padding: 18px 20px; border-radius: 16px; margin-bottom: 36px; }
+  .lp .thanks-card-row { padding: 10px 0; }
+  .lp .thanks-card-row .val { font-size: 13px; }
+  .lp .thanks-next-title { font-size: 22px; margin-bottom: 18px; }
+  .lp .thanks-next-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 28px; }
+  .lp .thanks-next-card { padding: 20px; }
+  .lp .thanks-tip { padding: 16px; gap: 12px; }
+  .lp .thanks-tip-icon { width: 36px; height: 36px; }
+  .lp .thanks-footer-fine { font-size: 11px; margin-top: 24px; }
+
+  /* Image placeholders on mobile shouldn't carry desktop heights */
+  .lp .img-placeholder { min-height: 200px; }
+}
+
+/* Extra-narrow phones: stack the ZipCard's input + button so the button
+   becomes full-width and easier to tap. */
+@media (max-width: 480px) {
+  .lp .zip-card-form { flex-direction: column; gap: 10px; }
+  .lp .zip-card-btn { width: 100%; justify-content: center; }
+  .lp .quiz-header-meta { display: none; }
 }
