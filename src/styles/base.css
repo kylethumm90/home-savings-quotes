@@ -72,6 +72,18 @@ button {
   cursor: not-allowed;
 }
 
+/* ===== V3 hero photo (replaces the placeholder under the hero grid) ===== */
+.lp .hero-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 20px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
 /* ===== How-it-works step imagery ===== */
 .lp .hiw-illo-img {
   display: block;

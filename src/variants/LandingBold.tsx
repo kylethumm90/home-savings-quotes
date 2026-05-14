@@ -11,6 +11,7 @@ import { QuizPage } from '../components/funnel/QuizPage';
 import { ThanksPage } from '../components/funnel/ThanksPage';
 import { useFunnelFlow } from '../lib/useFunnelFlow';
 import type { HeroStyle } from '../lib/TweaksContext';
+import heroImg from '../assets/hsq-hero.png';
 
 type LandingBoldProps = { heroStyle?: HeroStyle };
 
@@ -171,11 +172,19 @@ export function LandingBold({ heroStyle = 'photo' }: LandingBoldProps) {
             </div>
 
             <div style={{ marginTop: 72, position: 'relative' }}>
-              <ImagePlaceholder
-                label={HERO_LABELS[heroStyle]}
-                height={320}
-                illu={heroStyle === 'illustration'}
-              />
+              {heroStyle === 'photo' ? (
+                <img
+                  className="hero-photo"
+                  src={heroImg}
+                  alt="Modern home at twilight with rooftop solar panels and benefit callouts: lower bills, smart upgrades, peace of mind."
+                />
+              ) : (
+                <ImagePlaceholder
+                  label={HERO_LABELS[heroStyle]}
+                  height={320}
+                  illu={heroStyle === 'illustration'}
+                />
+              )}
             </div>
           </div>
 
