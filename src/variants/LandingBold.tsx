@@ -92,52 +92,38 @@ export function LandingBold({ heroStyle = 'photo' }: LandingBoldProps) {
         <div className="container" style={{ position: 'relative' }}>
           <Nav />
 
-          <div className="hero">
-            <div className="hero-v3-flex">
-              <div className="hero-v3-text">
-                <span className="hero-eyebrow hero-v3-eyebrow">
-                  <span className="pip"></span> Friendly help in all 50 states
-                </span>
-                <h1 className="hero-v3-title">
-                  Your power bill,
-                  <br />
-                  <span className="accent">rewritten.</span>
-                </h1>
-                <p className="lead hero-v3-lead">
-                  A friendlier way to shop solar. Get matched with trusted local installers in about a minute,
-                  compare up to 3 offers at your own pace, and lock in $0-down savings without anyone showing up
-                  at your door.
-                </p>
+          <div className="hero hero-v3">
+            <span className="hero-eyebrow hero-v3-eyebrow">
+              <span className="pip"></span> Friendly help in all 50 states
+            </span>
+            <h1 className="hero-v3-title">
+              Your power bill,
+              <br />
+              <span className="accent">rewritten.</span>
+            </h1>
 
-                <div className="hero-v3-stats">
-                  {STATS.map((s, i) => (
-                    <div key={i} className={'hero-v3-stat' + (i ? ' divided' : '')}>
-                      <div className="hero-v3-stat-n">{s.n}</div>
-                      <div className="hero-v3-stat-l">{s.l}</div>
-                    </div>
-                  ))}
+            <div className="hero-v3-zip-wrap">
+              <div className="hero-v3-zip-glow" aria-hidden="true"></div>
+              <ZipCard
+                onSubmit={flow.startQuiz}
+                headline="Start your free quote."
+                sub="Just your zip to begin — we'll see if your area qualifies and line up offers from trusted local installers."
+              />
+            </div>
+
+            <p className="lead hero-v3-lead">
+              A friendlier way to shop solar. Get matched with trusted local installers in about a minute,
+              compare up to 3 offers at your own pace, and lock in $0-down savings without anyone showing up at
+              your door.
+            </p>
+
+            <div className="hero-v3-stats">
+              {STATS.map((s, i) => (
+                <div key={i} className={'hero-v3-stat' + (i ? ' divided' : '')}>
+                  <div className="hero-v3-stat-n">{s.n}</div>
+                  <div className="hero-v3-stat-l">{s.l}</div>
                 </div>
-              </div>
-
-              <div className="hero-v3-zip-wrap">
-                <div
-                  className="hero-v3-zip-glow"
-                  style={{
-                    position: 'absolute',
-                    inset: -20,
-                    borderRadius: 28,
-                    background:
-                      'radial-gradient(circle at 50% 50%, rgba(224,122,59,0.20), transparent 70%)',
-                    filter: 'blur(40px)',
-                    pointerEvents: 'none',
-                  }}
-                ></div>
-                <ZipCard
-                  onSubmit={flow.startQuiz}
-                  headline="Start your free quote."
-                  sub="Just your zip to begin — we'll see if your area qualifies and line up offers from trusted local installers."
-                />
-              </div>
+              ))}
             </div>
 
             <div className="hero-v3-photo">
