@@ -5,13 +5,15 @@ export type SubmitResult = {
   expectedBy?: string;
 };
 
-const DEFAULT_ENDPOINT = '/api/quote';
+// Make.com webhook that receives every completed quote form submission.
+// Override per-environment with VITE_QUOTE_ENDPOINT if needed.
+const DEFAULT_ENDPOINT = 'https://hook.us1.make.com/j295h9ciroc84z5e96g4a21c3s97ig7c';
 
-// POSTs the lead to the configured endpoint. The response body is expected to
-// be { confirmationId, expectedBy? }. Falls back to a locally-generated
-// confirmation id if the endpoint is unreachable (network error / non-2xx),
-// so the thank-you page still has something to display in environments
-// without a backend wired up yet.
+// POSTs the full form entry to the configured endpoint as JSON. Make.com
+// webhooks reply with plain "Accepted" rather than JSON, so we don't rely
+// on the response body — a confirmation id is generated client-side and
+// shown on the thank-you page regardless. A network error / non-2xx still
+// falls back to the same generated id so the user isn't blocked.
 export async function submitQuote(data: QuoteData): Promise<SubmitResult> {
   const endpoint = import.meta.env.VITE_QUOTE_ENDPOINT || DEFAULT_ENDPOINT;
   const fallback: SubmitResult = {
