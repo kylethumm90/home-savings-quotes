@@ -239,9 +239,9 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                     <button
                       key={b.id}
                       type="button"
-                      className={'quiz-option' + (data.bill === b.id ? ' active' : '')}
+                      className={'quiz-option' + (data.bill === b.label ? ' active' : '')}
                       onClick={() => {
-                        update('bill', b.id);
+                        update('bill', b.label);
                         setTimeout(next, 220);
                       }}
                     >
