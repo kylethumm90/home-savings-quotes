@@ -3,7 +3,7 @@ import { Icon } from '../Icon';
 import { Logo } from '../Logo';
 import type { QuoteData } from '../../lib/types';
 import type { SubmitResult } from '../../lib/submitQuote';
-import { submitQuote } from '../../lib/submitQuote';
+import { submitQuote, TCPA_CONSENT_TEXT } from '../../lib/submitQuote';
 
 type QuizPageProps = {
   data: QuoteData;
@@ -78,6 +78,11 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
     }
     if (!/^\S+@\S+\.\S+$/.test(data.email)) {
       setErr('Please enter a valid email address.');
+      return;
+    }
+    const phoneDigits = data.phone.replace(/\D/g, '');
+    if (phoneDigits.length < 10) {
+      setErr('Please enter a valid 10-digit phone number — installers need a way to reach you.');
       return;
     }
     setSubmitting(true);
@@ -333,15 +338,12 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                     />
                   </label>
                   <label className="quiz-field">
-                    <span>
-                      Phone{' '}
-                      <span style={{ color: 'var(--ink-mute)', fontWeight: 400 }}>
-                        (optional — fastest match)
-                      </span>
-                    </span>
+                    <span>Phone</span>
                     <input
                       className="quiz-input"
                       type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
                       placeholder="(555) 123-4567"
                       value={data.phone}
                       onChange={(e) => update('phone', e.target.value)}
@@ -357,10 +359,7 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                   {submitting ? 'Sending…' : 'Get my free quotes'}{' '}
                   <Icon name="arrow-right" size={18} />
                 </button>
-                <div className="quiz-fine">
-                  By submitting you agree to be contacted by HomeSavingsQuotes and up to 3 matched installers
-                  regarding your quote. Standard message and data rates may apply. No purchase necessary.
-                </div>
+                <div className="quiz-fine">{TCPA_CONSENT_TEXT}</div>
               </form>
             )}
 
