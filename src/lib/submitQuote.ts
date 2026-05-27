@@ -19,9 +19,10 @@ export const TCPA_CONSENT_TEXT =
   'matched installers regarding your quote. Standard message and data rates ' +
   'may apply. No purchase necessary.';
 
-// Stable identifier sent as meta.source_id. Override via VITE_SI_SOURCE_ID
-// when running multiple campaigns / sub-affiliates from the same code.
-const SOURCE_ID = import.meta.env.VITE_SI_SOURCE_ID || 'homesavingsquotes-web';
+// Stable identifier sent as meta.source_id. SI vendors expect a short
+// alphanumeric code (3-6 chars, e.g. "50SGA") so they can attribute leads
+// per platform. Override via VITE_SI_SOURCE_ID per campaign / channel.
+const SOURCE_ID = import.meta.env.VITE_SI_SOURCE_ID || 'FBKT';
 
 // Standard Information only accepts these three property-type enums, so the
 // quiz's four options collapse down.
