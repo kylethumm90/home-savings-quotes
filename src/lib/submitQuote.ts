@@ -26,6 +26,8 @@ type EnrichedPayload = QuoteData & {
   originally_created: string;
   user_agent: string;
   tcpa_consent_text: string;
+  trusted_form_cert_url?: string;
+  universal_leadid?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -42,6 +44,8 @@ function buildPayload(data: QuoteData): EnrichedPayload {
     originally_created: new Date().toISOString(),
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
+    trusted_form_cert_url: data.trustedFormCertUrl,
+    universal_leadid: data.leadidToken,
     utm_source: utm('utm_source'),
     utm_medium: utm('utm_medium'),
     utm_campaign: utm('utm_campaign'),

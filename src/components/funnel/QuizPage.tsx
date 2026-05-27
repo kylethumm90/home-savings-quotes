@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Icon } from '../Icon';
 import { Logo } from '../Logo';
 import type { QuoteData } from '../../lib/types';
@@ -41,6 +41,11 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
   const [err, setErr] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const totalSteps = STEP_LABELS.length;
+  // TrustedForm and Jornaya inject their cert URL / lead token into these
+  // hidden inputs via direct DOM mutation, so read them off refs at submit
+  // time rather than wiring them through React state.
+  const trustedFormRef = useRef<HTMLInputElement | null>(null);
+  const leadidRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setParentData(data);
@@ -87,8 +92,13 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
     }
     setSubmitting(true);
     try {
-      const result = await submitQuote(data);
-      onComplete(data, result);
+      const enriched: QuoteData = {
+        ...data,
+        trustedFormCertUrl: trustedFormRef.current?.value || undefined,
+        leadidToken: leadidRef.current?.value || undefined,
+      };
+      const result = await submitQuote(enriched);
+      onComplete(enriched, result);
     } finally {
       setSubmitting(false);
     }
@@ -349,17 +359,32 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                       onChange={(e) => update('phone', e.target.value)}
                     />
                   </label>
+                  <input
+                    ref={trustedFormRef}
+                    id="xxTrustedFormCertUrl"
+                    name="xxTrustedFormCertUrl"
+                    type="hidden"
+                  />
+                  <input
+                    ref={leadidRef}
+                    id="leadid_token"
+                    name="universal_leadid"
+                    type="hidden"
+                  />
                 </div>
                 {err && <div className="quiz-err">{err}</div>}
                 <button
                   className="btn btn-primary btn-lg quiz-submit"
                   type="submit"
                   disabled={submitting}
+                  data-tf-element-role="submit"
                 >
                   {submitting ? 'Sending…' : 'Get my free quotes'}{' '}
                   <Icon name="arrow-right" size={18} />
                 </button>
-                <div className="quiz-fine">{TCPA_CONSENT_TEXT}</div>
+                <div className="quiz-fine" data-tf-element-role="consent-language">
+                  {TCPA_CONSENT_TEXT}
+                </div>
               </form>
             )}
 

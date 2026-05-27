@@ -9,6 +9,8 @@ export type QuoteData = {
   name: string;
   email: string;
   phone: string;
+  trustedFormCertUrl?: string;
+  leadidToken?: string;
 };
 
 export const emptyQuote = (): QuoteData => ({
