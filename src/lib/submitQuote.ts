@@ -31,22 +31,43 @@ type EnrichedPayload = QuoteData & {
   utm_campaign?: string;
   utm_term?: string;
   utm_content?: string;
+  // Google Ads ValueTrack click data from the campaign's final URL suffix.
+  // gclid (+ its iOS counterparts gbraid/wbraid) is the key one: it lets you
+  // upload qualified/sold leads back to Google Ads as offline conversions.
+  adgroup?: string;
+  matchtype?: string;
+  network?: string;
+  device?: string;
+  geo_state?: string;
+  gclid?: string;
+  gbraid?: string;
+  wbraid?: string;
 };
 
 function buildPayload(data: QuoteData): EnrichedPayload {
   const params = new URLSearchParams(window.location.search);
-  const utm = (k: string) => params.get(k) || undefined;
+  const param = (k: string) => params.get(k) || undefined;
   return {
     ...data,
     landing_page_url: window.location.href,
     originally_created: new Date().toISOString(),
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
-    utm_source: utm('utm_source'),
-    utm_medium: utm('utm_medium'),
-    utm_campaign: utm('utm_campaign'),
-    utm_term: utm('utm_term'),
-    utm_content: utm('utm_content'),
+    utm_source: param('utm_source'),
+    utm_medium: param('utm_medium'),
+    utm_campaign: param('utm_campaign'),
+    utm_term: param('utm_term'),
+    utm_content: param('utm_content'),
+    adgroup: param('adgroup'),
+    matchtype: param('matchtype'),
+    network: param('network'),
+    device: param('device'),
+    // {LOCATION(State)} — the state the click came from. Named geo_state (not
+    // state) so it doesn't clobber the mailing state Make derives from the ZIP.
+    geo_state: param('state'),
+    gclid: param('gclid'),
+    gbraid: param('gbraid'),
+    wbraid: param('wbraid'),
   };
 }
 
