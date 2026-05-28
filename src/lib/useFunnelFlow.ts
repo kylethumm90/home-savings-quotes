@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import type { QuoteData } from './types';
 import { emptyQuote } from './types';
 import type { SubmitResult } from './submitQuote';
+import { trackLeadConversion } from './tracking';
 
 export type Phase = 'landing' | 'quiz' | 'thanks';
 
@@ -34,6 +35,7 @@ export function useFunnelFlow(): FunnelFlow {
     setData(d);
     setResult(r);
     setPhase('thanks');
+    trackLeadConversion({ transactionId: r.confirmationId });
     window.scrollTo({ top: 0 });
   }, []);
 

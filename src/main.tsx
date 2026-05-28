@@ -1,8 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { initTracking } from './lib/tracking';
 import './styles/landing.css';
 import './styles/base.css';
+
+initTracking();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Missing #root element in index.html');
