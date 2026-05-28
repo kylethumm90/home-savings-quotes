@@ -1,0 +1,38 @@
+# SPM Solar - Search :: Ad assets (extensions)
+# Add under the campaign -> Assets. Extensions lift CTR and Quality Score,
+# which lowers CPC and therefore CPL. Add all of them.
+
+## Callouts (<=25 chars each)
+Free No-Obligation Quotes
+Up to 3 Local Installers
+$0-Down Financing
+No Door-Knock Pressure
+Quotes in About a Minute
+Match in 24 Hours
+
+## Sitelinks (link text <=25, two descriptions <=35 each)
+# Funnel is a single-page app, so point sitelinks at the homepage (or on-page
+# anchors if you add them). Each still needs the same final URL suffix.
+Text: How It Works
+  Desc 1: See the 3 simple steps
+  Desc 2: Quotes in about a minute
+
+Text: Why Go Solar
+  Desc 1: Cut your monthly electric bill
+  Desc 2: See your savings estimate
+
+Text: Common Questions
+  Desc 1: Costs, financing, timeline
+  Desc 2: Answers before you commit
+
+Text: Get My Free Quotes
+  Desc 1: Compare up to 3 installers
+  Desc 2: No pressure, no door-knock
+
+## Structured snippet
+Header: Services
+Values: Solar Quotes, Roof Assessment, Savings Estimate, Installer Matching, $0-Down Financing
+
+## Call asset (optional)
+# Add a tracked phone number if SPM has a call center; otherwise skip so you
+# don't pay for calls that bypass the lead form / conversion tag.

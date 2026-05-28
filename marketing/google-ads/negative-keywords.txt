@@ -1,0 +1,111 @@
+# SPM Solar - Search :: Negative keyword list
+# Add as a shared negative list (Tools -> Shared library -> Negative keyword
+# lists) and attach to the campaign. Multi-word entries are safest as PHRASE
+# match negatives; single product/intent words as BROAD. Review the Search
+# Terms report weekly for the first month and keep adding.
+
+# --- Jobs / careers / education ---
+jobs
+job
+salary
+careers
+hiring
+apprentice
+training
+course
+courses
+certification
+school
+class
+degree
+
+# --- DIY / products / parts (not install leads) ---
+diy
+kit
+kits
+how to install
+how to build
+build your own
+wiring
+diagram
+schematic
+inverter
+wholesale
+manufacturer
+manufacturers
+supplier
+distributor
+used
+refurbished
+amazon
+home depot
+lowes
+costco
+harbor freight
+walmart
+
+# --- Non-rooftop / wrong product ---
+portable
+rv
+camper
+camping
+boat
+marine
+shed
+generator
+solar generator
+solar battery charger
+solar lights
+solar light
+solar oven
+solar charger
+solar pool heater
+solar pool
+solar water heater
+solar hot water
+ground mount
+off grid
+off-grid
+street light
+
+# --- Disqualifying audience ---
+apartment
+apartments
+renters
+rental
+free solar panels
+free solar program
+government solar program
+free government solar
+grants
+nonprofit
+
+# --- Commercial / utility scale ---
+commercial
+business
+warehouse
+farm
+agricultural
+utility scale
+megawatt
+mw
+
+# --- Research / low intent / brand-risk ---
+stocks
+stock
+etf
+invest
+investing
+shares
+reviews
+complaints
+scam
+lawsuit
+class action
+wikipedia
+definition
+meaning
+repair
+cleaning
+removal
+maintenance
