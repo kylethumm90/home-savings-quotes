@@ -7,7 +7,7 @@
 // (Tools > Conversions). They're env-driven so the IDs aren't hardcoded and
 // every tracking call no-ops until they're set (e.g. in local/dev/preview).
 const CONVERSION_ID = import.meta.env.VITE_GOOGLE_ADS_ID || 'AW-18156427728';
-const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_LABEL; // e.g. "AbC-D_efG-hIjK"
+const CONVERSION_LABEL = import.meta.env.VITE_GOOGLE_ADS_LABEL || 'hi3tCKjIj7UcENCz1NFD';
 
 declare global {
   interface Window {
