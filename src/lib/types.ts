@@ -5,6 +5,7 @@ export type QuoteData = {
   ownership: string;
   homeType: string;
   bill: string;
+  roofShade: string;
   address: string;
   name: string;
   email: string;
@@ -16,6 +17,7 @@ export const emptyQuote = (): QuoteData => ({
   ownership: '',
   homeType: '',
   bill: '',
+  roofShade: '',
   address: '',
   name: '',
   email: '',

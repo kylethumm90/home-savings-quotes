@@ -39,7 +39,15 @@ const OWNERSHIP_OPTIONS = [
   { id: 'rent', label: 'I rent it', sub: "Tenant or it's not my place", icon: 'condo' },
 ];
 
-const STEP_LABELS = ['Own or rent?', 'Home type', 'Electric bill', 'Address', 'Your info'];
+// Values must match the delivery's valid roof_shade options exactly.
+const SHADE_OPTIONS = [
+  { value: 'No Shade', sub: 'Roof gets full sun', icon: 'spark' },
+  { value: 'Some Shade', sub: 'A few trees or obstructions', icon: 'leaf' },
+  { value: 'Full Shade', sub: 'Heavily shaded most of the day', icon: 'leaf' },
+  { value: 'Not Sure', sub: "I'm not certain", icon: 'shield' },
+];
+
+const STEP_LABELS = ['Own or rent?', 'Home type', 'Electric bill', 'Roof shade', 'Address', 'Your info'];
 
 export function QuizPage({ data: initialData, setData: setParentData, onComplete, onBack }: QuizPageProps) {
   const [data, setLocalData] = useState<QuoteData>(initialData);
@@ -278,6 +286,39 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
             )}
 
             {step === 3 && (
+              <div>
+                <h1 className="quiz-q">How much shade does your roof get?</h1>
+                <p className="quiz-sub">
+                  A rough sense is all we need — it helps installers gauge how much sun your panels would see.
+                </p>
+                <div className="quiz-options">
+                  {SHADE_OPTIONS.map((s) => (
+                    <button
+                      key={s.value}
+                      type="button"
+                      className={'quiz-option' + (data.roofShade === s.value ? ' active' : '')}
+                      onClick={() => {
+                        update('roofShade', s.value);
+                        setTimeout(next, 220);
+                      }}
+                    >
+                      <span className="opt-icon">
+                        <Icon name={s.icon} size={22} />
+                      </span>
+                      <span className="opt-body">
+                        <span className="opt-label">{s.value}</span>
+                        <span className="opt-sub">{s.sub}</span>
+                      </span>
+                      <span className="opt-chev">
+                        <Icon name="arrow-right" size={16} />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {step === 4 && (
               <form onSubmit={advanceAddress}>
                 <h1 className="quiz-q">What's the address?</h1>
                 <p className="quiz-sub">
@@ -320,7 +361,7 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
               </form>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
               // data-tf-element-role="offer" marks the consent form for
               // TrustedForm's tagged-consent capture (paired with the tagged
               // disclaimer + submit below). The hidden inputs are populated by
