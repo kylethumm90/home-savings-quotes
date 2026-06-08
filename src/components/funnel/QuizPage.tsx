@@ -310,7 +310,14 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
             )}
 
             {step === 4 && (
-              <form onSubmit={handleSubmit}>
+              // data-tf-element-role="offer" marks the consent form for
+              // TrustedForm's tagged-consent capture (paired with the tagged
+              // disclaimer + submit below). The hidden inputs are populated by
+              // the Jornaya (#leadid_token) and TrustedForm (xxTrustedFormCertUrl)
+              // page scripts and read back at submit time in submitQuote.
+              <form onSubmit={handleSubmit} data-tf-element-role="offer">
+                <input type="hidden" id="leadid_token" name="universal_leadid" defaultValue="" />
+                <input type="hidden" id="xxTrustedFormCertUrl" name="xxTrustedFormCertUrl" defaultValue="" />
                 <h1 className="quiz-q">How should the installers reach you?</h1>
                 <p className="quiz-sub">
                   We'll match you with up to 3 hand-picked local installers within 24 hours — they'll get in
@@ -355,11 +362,14 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                   className="btn btn-primary btn-lg quiz-submit"
                   type="submit"
                   disabled={submitting}
+                  data-tf-element-role="submit"
                 >
                   {submitting ? 'Sending…' : 'Get my free quotes'}{' '}
                   <Icon name="arrow-right" size={18} />
                 </button>
-                <div className="quiz-fine">{TCPA_CONSENT_TEXT}</div>
+                <div className="quiz-fine" data-tf-element-role="consent-language">
+                  {TCPA_CONSENT_TEXT}
+                </div>
               </form>
             )}
 

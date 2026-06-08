@@ -26,12 +26,27 @@ type EnrichedPayload = QuoteData & {
   originally_created: string;
   user_agent: string;
   tcpa_consent_text: string;
+  // Lead-authenticity certificates. Populated client-side by the Jornaya and
+  // TrustedForm scripts (see index.html) into the hidden fields on the final
+  // consent form, then forwarded so Make/Standard Information can store them as
+  // independent proof of consent. Empty if a script was blocked or didn't run.
+  universal_leadid?: string;
+  xxTrustedFormCertUrl?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
   utm_term?: string;
   utm_content?: string;
 };
+
+// Reads a value the Jornaya / TrustedForm scripts wrote into a hidden form
+// field. Returns undefined when the field is missing or still empty.
+function readHiddenField(selector: string): string | undefined {
+  if (typeof document === 'undefined') return undefined;
+  const el = document.querySelector<HTMLInputElement>(selector);
+  const value = el?.value?.trim();
+  return value ? value : undefined;
+}
 
 function buildPayload(data: QuoteData): EnrichedPayload {
   const params = new URLSearchParams(window.location.search);
@@ -42,6 +57,8 @@ function buildPayload(data: QuoteData): EnrichedPayload {
     originally_created: new Date().toISOString(),
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
+    universal_leadid: readHiddenField('#leadid_token'),
+    xxTrustedFormCertUrl: readHiddenField('input[name="xxTrustedFormCertUrl"]'),
     utm_source: utm('utm_source'),
     utm_medium: utm('utm_medium'),
     utm_campaign: utm('utm_campaign'),
