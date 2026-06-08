@@ -1,6 +1,7 @@
 import type { QuoteData } from './types';
 import { getClientIp } from './clientIp';
 import { getZipLocation, type ZipLocation } from './zipLookup';
+import { billLabelToAmount } from './billRanges';
 
 export type SubmitResult = {
   confirmationId: string;
@@ -33,6 +34,10 @@ type EnrichedPayload = QuoteData & {
   // is the first whitespace-delimited token; last_name is everything after.
   first_name: string;
   last_name: string;
+  // Correctly-typed copies of ownership/bill for the delivery, which requires a
+  // boolean and a number (the raw `ownership`/`bill` strings are still sent too).
+  own_property: boolean;
+  monthly_electric_bill?: number;
   // Visitor's public IP, resolved client-side via ipify. Empty if the lookup
   // was blocked or timed out.
   ip_address?: string;
@@ -93,6 +98,8 @@ function buildPayload(
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
     ...splitName(data.name),
+    own_property: data.ownership === 'own',
+    monthly_electric_bill: billLabelToAmount(data.bill),
     ip_address: ipAddress,
     city: location.city,
     state: location.state,

@@ -6,6 +6,7 @@ import type { SubmitResult } from '../../lib/submitQuote';
 import { submitQuote, TCPA_CONSENT_TEXT } from '../../lib/submitQuote';
 import { prefetchClientIp } from '../../lib/clientIp';
 import { prefetchZipLocation } from '../../lib/zipLookup';
+import { BILL_RANGES } from '../../lib/billRanges';
 
 type QuizPageProps = {
   data: QuoteData;
@@ -24,13 +25,6 @@ const HOME_TYPES = [
   { value: 'Manufactured', sub: 'Mobile or modular home', icon: 'home-2story' },
   { value: 'Townhome', sub: 'Attached, owned', icon: 'townhouse' },
   { value: 'Duplex', sub: 'Two attached units', icon: 'townhouse' },
-];
-
-const BILL_RANGES = [
-  { id: 'low', label: 'Under $100', sub: 'Low usage' },
-  { id: 'mid', label: '$100 – $200', sub: 'Average home' },
-  { id: 'high', label: '$200 – $350', sub: 'Larger home' },
-  { id: 'xhigh', label: 'Over $350', sub: 'High usage' },
 ];
 
 // Both options proceed — we just want quotes routed appropriately, no "no"
