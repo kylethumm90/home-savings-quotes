@@ -1,5 +1,6 @@
 import type { QuoteData } from './types';
 import { getClientIp } from './clientIp';
+import { getZipLocation, type ZipLocation } from './zipLookup';
 
 export type SubmitResult = {
   confirmationId: string;
@@ -8,9 +9,10 @@ export type SubmitResult = {
 
 // Make.com webhook that receives every completed quote form submission.
 // Make is responsible for: mapping ownership to the Standard Information
-// enums, deriving city/state from zip, defaulting
-// roof_shade + utility_provider, attaching the Bearer auth header, and
+// enums, defaulting utility_provider, attaching the Bearer auth header, and
 // finally posting to https://exchange.standardinformation.io/capture(_test).
+// City/state are derived client-side from the ZIP (see zipLookup) and sent
+// directly as `city` / `state`.
 // Override per-environment with VITE_QUOTE_ENDPOINT if needed.
 const DEFAULT_ENDPOINT = 'https://hook.us1.make.com/j295h9ciroc84z5e96g4a21c3s97ig7c';
 
@@ -34,6 +36,9 @@ type EnrichedPayload = QuoteData & {
   // Visitor's public IP, resolved client-side via ipify. Empty if the lookup
   // was blocked or timed out.
   ip_address?: string;
+  // City / state derived from the ZIP via zipLookup. Empty for unknown ZIPs.
+  city?: string;
+  state?: string;
   // Lead-authenticity certificates. Populated client-side by the Jornaya and
   // TrustedForm scripts into the persistent hidden form in index.html, then
   // forwarded so Make/Standard Information can store them as independent proof
@@ -74,7 +79,11 @@ function readHiddenField(...selectors: string[]): string | undefined {
   return undefined;
 }
 
-function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
+function buildPayload(
+  data: QuoteData,
+  ipAddress?: string,
+  location: ZipLocation = {},
+): EnrichedPayload {
   const params = new URLSearchParams(window.location.search);
   const utm = (k: string) => params.get(k) || undefined;
   return {
@@ -85,6 +94,8 @@ function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
     tcpa_consent_text: TCPA_CONSENT_TEXT,
     ...splitName(data.name),
     ip_address: ipAddress,
+    city: location.city,
+    state: location.state,
     universal_leadid: readHiddenField('#leadid_token', 'input[name="universal_leadid"]'),
     xxTrustedFormCertUrl: readHiddenField('input[name="xxTrustedFormCertUrl"]'),
     utm_source: utm('utm_source'),
@@ -106,14 +117,17 @@ export async function submitQuote(data: QuoteData): Promise<SubmitResult> {
     confirmationId: 'HSQ-' + Math.floor(Math.random() * 90000 + 10000),
   };
 
-  // Resolve the visitor IP (usually already prefetched, so this is instant).
-  const ipAddress = await getClientIp();
+  // Resolve IP and city/state (both usually prefetched, so this is instant).
+  const [ipAddress, location] = await Promise.all([
+    getClientIp(),
+    getZipLocation(data.zip),
+  ]);
 
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(buildPayload(data, ipAddress)),
+      body: JSON.stringify(buildPayload(data, ipAddress, location)),
     });
     if (!res.ok) return fallback;
     const body = (await res.json().catch(() => null)) as Partial<SubmitResult> | null;

@@ -5,6 +5,7 @@ import type { QuoteData } from '../../lib/types';
 import type { SubmitResult } from '../../lib/submitQuote';
 import { submitQuote, TCPA_CONSENT_TEXT } from '../../lib/submitQuote';
 import { prefetchClientIp } from '../../lib/clientIp';
+import { prefetchZipLocation } from '../../lib/zipLookup';
 
 type QuizPageProps = {
   data: QuoteData;
@@ -56,10 +57,12 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
   const [submitting, setSubmitting] = useState(false);
   const totalSteps = STEP_LABELS.length;
 
-  // Resolve the visitor IP as soon as the quiz opens so it's ready at submit.
+  // Resolve the visitor IP and ZIP-based city/state as soon as the quiz opens
+  // so both are ready at submit.
   useEffect(() => {
     prefetchClientIp();
-  }, []);
+    prefetchZipLocation(initialData.zip);
+  }, [initialData.zip]);
 
   useEffect(() => {
     setParentData(data);
