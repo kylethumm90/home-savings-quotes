@@ -1,4 +1,5 @@
 import type { QuoteData } from './types';
+import { getClientIp } from './clientIp';
 
 export type SubmitResult = {
   confirmationId: string;
@@ -26,6 +27,9 @@ type EnrichedPayload = QuoteData & {
   originally_created: string;
   user_agent: string;
   tcpa_consent_text: string;
+  // Visitor's public IP, resolved client-side via ipify. Empty if the lookup
+  // was blocked or timed out.
+  ip_address?: string;
   // Lead-authenticity certificates. Populated client-side by the Jornaya and
   // TrustedForm scripts (see index.html) into the hidden fields on the final
   // consent form, then forwarded so Make/Standard Information can store them as
@@ -48,7 +52,7 @@ function readHiddenField(selector: string): string | undefined {
   return value ? value : undefined;
 }
 
-function buildPayload(data: QuoteData): EnrichedPayload {
+function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
   const params = new URLSearchParams(window.location.search);
   const utm = (k: string) => params.get(k) || undefined;
   return {
@@ -57,6 +61,7 @@ function buildPayload(data: QuoteData): EnrichedPayload {
     originally_created: new Date().toISOString(),
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
+    ip_address: ipAddress,
     universal_leadid: readHiddenField('#leadid_token'),
     xxTrustedFormCertUrl: readHiddenField('input[name="xxTrustedFormCertUrl"]'),
     utm_source: utm('utm_source'),
@@ -78,11 +83,14 @@ export async function submitQuote(data: QuoteData): Promise<SubmitResult> {
     confirmationId: 'HSQ-' + Math.floor(Math.random() * 90000 + 10000),
   };
 
+  // Resolve the visitor IP (usually already prefetched, so this is instant).
+  const ipAddress = await getClientIp();
+
   try {
     const res = await fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(buildPayload(data)),
+      body: JSON.stringify(buildPayload(data, ipAddress)),
     });
     if (!res.ok) return fallback;
     const body = (await res.json().catch(() => null)) as Partial<SubmitResult> | null;
