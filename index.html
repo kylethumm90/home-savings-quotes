@@ -53,6 +53,21 @@
     <!-- Jornaya / TrustedForm no-JavaScript fallbacks -->
     <noscript><img src='//create.leadid.com/noscript.gif?lac=F2DCEEA5-FE76-2DE2-9848-7725157C27F2&lck=8b5c4cca-4d4b-3042-ddaf-e932a53d619c&snippet_version=2' /></noscript>
     <noscript><img src='https://api.trustedform.com/ns.gif' /></noscript>
+
+    <!--
+      Persistent lead-certificate fields. These exist from initial page load so
+      the Jornaya (#leadid_token) and TrustedForm (xxTrustedFormCertUrl) scripts
+      can bind to a real <form> and populate them throughout the session — not
+      just on the final funnel step. Positioned off-screen (not display:none, so
+      the scripts still treat the form as active). Read at submit in submitQuote.
+    -->
+    <form id="lead-cert-fields" aria-hidden="true" tabindex="-1"
+          style="position:absolute;left:-9999px;top:0;width:1px;height:1px;overflow:hidden"
+          onsubmit="return false">
+      <input type="hidden" id="leadid_token" name="universal_leadid" value="" />
+      <input type="hidden" id="xxTrustedFormCertUrl" name="xxTrustedFormCertUrl" value="" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

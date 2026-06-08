@@ -35,9 +35,10 @@ type EnrichedPayload = QuoteData & {
   // was blocked or timed out.
   ip_address?: string;
   // Lead-authenticity certificates. Populated client-side by the Jornaya and
-  // TrustedForm scripts (see index.html) into the hidden fields on the final
-  // consent form, then forwarded so Make/Standard Information can store them as
-  // independent proof of consent. Empty if a script was blocked or didn't run.
+  // TrustedForm scripts into the persistent hidden form in index.html, then
+  // forwarded so Make/Standard Information can store them as independent proof
+  // of consent. universal_leadid is the Jornaya LeadiD token; xxTrustedFormCertUrl
+  // is the TrustedForm certificate URL. Empty if a script was blocked.
   universal_leadid?: string;
   xxTrustedFormCertUrl?: string;
   utm_source?: string;
@@ -58,13 +59,19 @@ function splitName(full: string): { first_name: string; last_name: string } {
   };
 }
 
-// Reads a value the Jornaya / TrustedForm scripts wrote into a hidden form
-// field. Returns undefined when the field is missing or still empty.
-function readHiddenField(selector: string): string | undefined {
+// Reads a value the Jornaya / TrustedForm scripts wrote into a hidden field.
+// The scripts may either populate the field we provide or inject their own, so
+// we scan every matching element and return the first non-empty value.
+function readHiddenField(...selectors: string[]): string | undefined {
   if (typeof document === 'undefined') return undefined;
-  const el = document.querySelector<HTMLInputElement>(selector);
-  const value = el?.value?.trim();
-  return value ? value : undefined;
+  for (const selector of selectors) {
+    const els = document.querySelectorAll<HTMLInputElement>(selector);
+    for (const el of els) {
+      const value = el.value?.trim();
+      if (value) return value;
+    }
+  }
+  return undefined;
 }
 
 function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
@@ -78,7 +85,7 @@ function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
     tcpa_consent_text: TCPA_CONSENT_TEXT,
     ...splitName(data.name),
     ip_address: ipAddress,
-    universal_leadid: readHiddenField('#leadid_token'),
+    universal_leadid: readHiddenField('#leadid_token', 'input[name="universal_leadid"]'),
     xxTrustedFormCertUrl: readHiddenField('input[name="xxTrustedFormCertUrl"]'),
     utm_source: utm('utm_source'),
     utm_medium: utm('utm_medium'),
