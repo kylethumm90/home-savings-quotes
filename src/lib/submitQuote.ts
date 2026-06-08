@@ -7,7 +7,7 @@ export type SubmitResult = {
 };
 
 // Make.com webhook that receives every completed quote form submission.
-// Make is responsible for: splitting name, mapping ownership/homeType to the
+// Make is responsible for: splitting name, mapping ownership to the
 // Standard Information enums, deriving city/state from zip, defaulting
 // roof_shade + utility_provider, attaching the Bearer auth header, and
 // finally posting to https://exchange.standardinformation.io/capture(_test).

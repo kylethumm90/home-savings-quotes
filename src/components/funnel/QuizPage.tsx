@@ -13,11 +13,16 @@ type QuizPageProps = {
   onBack: () => void;
 };
 
+// Values must match the delivery's valid property-type options exactly — the
+// selected value is forwarded as `homeType` with no further mapping needed.
 const HOME_TYPES = [
-  { id: 'single', label: 'Single family', sub: 'Detached, owned', icon: 'home' },
-  { id: 'two-story', label: 'Two-story', sub: 'Multi-level home', icon: 'home-2story' },
-  { id: 'townhouse', label: 'Townhouse', sub: 'Attached, owned', icon: 'townhouse' },
-  { id: 'condo', label: 'Condo / other', sub: 'May not qualify', icon: 'condo' },
+  { value: 'Single Family', sub: 'Detached, one unit', icon: 'home' },
+  { value: 'Multi Family', sub: 'Two or more units', icon: 'condo' },
+  { value: 'Apartment', sub: 'Unit in a larger building', icon: 'condo' },
+  { value: 'Condo', sub: 'Owned unit, shared building', icon: 'condo' },
+  { value: 'Manufactured', sub: 'Mobile or modular home', icon: 'home-2story' },
+  { value: 'Townhome', sub: 'Attached, owned', icon: 'townhouse' },
+  { value: 'Duplex', sub: 'Two attached units', icon: 'townhouse' },
 ];
 
 const BILL_RANGES = [
@@ -215,11 +220,11 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                 <div className="quiz-options">
                   {HOME_TYPES.map((t) => (
                     <button
-                      key={t.id}
+                      key={t.value}
                       type="button"
-                      className={'quiz-option' + (data.homeType === t.id ? ' active' : '')}
+                      className={'quiz-option' + (data.homeType === t.value ? ' active' : '')}
                       onClick={() => {
-                        update('homeType', t.id);
+                        update('homeType', t.value);
                         setTimeout(next, 220);
                       }}
                     >
@@ -227,7 +232,7 @@ export function QuizPage({ data: initialData, setData: setParentData, onComplete
                         <Icon name={t.icon} size={22} />
                       </span>
                       <span className="opt-body">
-                        <span className="opt-label">{t.label}</span>
+                        <span className="opt-label">{t.value}</span>
                         <span className="opt-sub">{t.sub}</span>
                       </span>
                       <span className="opt-chev">
