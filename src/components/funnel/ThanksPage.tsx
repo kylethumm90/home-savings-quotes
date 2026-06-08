@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { Icon } from '../Icon';
 import { Logo } from '../Logo';
 import type { QuoteData } from '../../lib/types';
 import type { SubmitResult } from '../../lib/submitQuote';
+import { trackQuoteConversion } from '../../lib/trackConversion';
 
 type ThanksPageProps = {
   data: QuoteData;
@@ -32,6 +34,12 @@ const NEXT_STEPS = [
 
 export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
   const firstName = (data.name || '').split(' ')[0] || 'neighbor';
+
+  // Fire the Google Ads "Quote Requested" conversion once, when the user
+  // reaches the thank-you screen (i.e. after a completed submission).
+  useEffect(() => {
+    trackQuoteConversion();
+  }, []);
 
   return (
     <div className="thanks-page">
