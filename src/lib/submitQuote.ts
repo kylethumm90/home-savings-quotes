@@ -7,8 +7,8 @@ export type SubmitResult = {
 };
 
 // Make.com webhook that receives every completed quote form submission.
-// Make is responsible for: splitting name, mapping ownership to the
-// Standard Information enums, deriving city/state from zip, defaulting
+// Make is responsible for: mapping ownership to the Standard Information
+// enums, deriving city/state from zip, defaulting
 // roof_shade + utility_provider, attaching the Bearer auth header, and
 // finally posting to https://exchange.standardinformation.io/capture(_test).
 // Override per-environment with VITE_QUOTE_ENDPOINT if needed.
@@ -27,6 +27,10 @@ type EnrichedPayload = QuoteData & {
   originally_created: string;
   user_agent: string;
   tcpa_consent_text: string;
+  // Full name (`name`) split for buyers that require separate fields. first_name
+  // is the first whitespace-delimited token; last_name is everything after.
+  first_name: string;
+  last_name: string;
   // Visitor's public IP, resolved client-side via ipify. Empty if the lookup
   // was blocked or timed out.
   ip_address?: string;
@@ -42,6 +46,17 @@ type EnrichedPayload = QuoteData & {
   utm_term?: string;
   utm_content?: string;
 };
+
+// Splits a full name into first / last. The first whitespace-delimited token is
+// the first name; everything after is the last name (single-word names get an
+// empty last_name).
+function splitName(full: string): { first_name: string; last_name: string } {
+  const parts = full.trim().split(/\s+/).filter(Boolean);
+  return {
+    first_name: parts[0] ?? '',
+    last_name: parts.slice(1).join(' '),
+  };
+}
 
 // Reads a value the Jornaya / TrustedForm scripts wrote into a hidden form
 // field. Returns undefined when the field is missing or still empty.
@@ -61,6 +76,7 @@ function buildPayload(data: QuoteData, ipAddress?: string): EnrichedPayload {
     originally_created: new Date().toISOString(),
     user_agent: navigator.userAgent,
     tcpa_consent_text: TCPA_CONSENT_TEXT,
+    ...splitName(data.name),
     ip_address: ipAddress,
     universal_leadid: readHiddenField('#leadid_token'),
     xxTrustedFormCertUrl: readHiddenField('input[name="xxTrustedFormCertUrl"]'),
