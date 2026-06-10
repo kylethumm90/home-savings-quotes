@@ -36,9 +36,12 @@ export function ThanksPage({ data, result, onReset }: ThanksPageProps) {
   const firstName = (data.name || '').split(' ')[0] || 'neighbor';
 
   // Fire the Google Ads "Quote Requested" conversion once, when the user
-  // reaches the thank-you screen (i.e. after a completed submission).
+  // reaches the thank-you screen (i.e. after a completed submission). Renters
+  // are excluded inside trackQuoteConversion.
   useEffect(() => {
-    trackQuoteConversion();
+    trackQuoteConversion(data);
+    // Only the submitted lead matters; data is stable on this screen.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
